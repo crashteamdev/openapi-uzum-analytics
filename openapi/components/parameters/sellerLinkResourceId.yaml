@@ -1,0 +1,5 @@
+name: sellerLink
+in: path
+required: true
+schema:
+  $ref: '../schemas/SellerLink.yaml'

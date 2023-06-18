@@ -1,0 +1,22 @@
+get:
+  summary: Получить список магазинов продавца
+  operationId: getSellerShops
+  tags:
+    - seller
+  parameters:
+    - $ref: '../components/parameters/sellerLinkQuery.yaml'
+  responses:
+    '200':
+      description: Список магазинов продавца
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../components/schemas/Seller.yaml'
+    '400':
+      $ref: '../components/responses/BadRequest.yaml'
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml

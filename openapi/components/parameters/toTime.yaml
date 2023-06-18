@@ -1,0 +1,6 @@
+name: toTime
+in: query
+description: End date time.
+required: true
+schema:
+  $ref: '../schemas/DateTime.yaml'

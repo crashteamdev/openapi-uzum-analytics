@@ -1,0 +1,11 @@
+name: path
+in: query
+description: Category path.
+required: true
+style: form
+explode: false
+schema:
+  type: array
+  items:
+    type: string
+  example: Электроника,Смартфоны и телефоны,Аксессуары и запчасти

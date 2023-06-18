@@ -1,0 +1,5 @@
+name: jobId
+in: path
+required: true
+schema:
+  $ref: '../schemas/JobId.yaml'

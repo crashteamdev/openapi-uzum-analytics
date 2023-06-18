@@ -1,0 +1,9 @@
+name: productIds
+in: query
+description: List of product id
+required: true
+schema:
+  type: array
+  items:
+    type: integer
+    format: int64

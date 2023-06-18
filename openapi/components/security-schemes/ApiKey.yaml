@@ -1,0 +1,10 @@
+description: >
+  Для аутентификации вызовов из расширения мы используем API ключ.
+  Cоответствующий ключ передается в заголовке.
+
+  ```shell
+    X-API-KEY: 4AcpWqDM.s1c7f96bfp8abc773d07vcl50404ff8d58c943a5b4119f396513b1f8199ab955
+  ```
+type: apiKey
+in: header
+name: X-API-KEY

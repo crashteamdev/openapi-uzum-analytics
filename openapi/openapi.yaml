@@ -1,0 +1,28 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: CrashTeam Uzum Analytics API
+  description:
+    $ref: './docs/api.md'
+  termsOfService: http://marketdb.ru/terms-of-use/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: 'https://{subdomain}.marketdb.org/{version}'
+    variables:
+      subdomain:
+        default: api
+      version:
+        enum:
+          - v2
+        default: v2
+security:
+  - apiKey: []
+paths:
+  '/seller/link':
+    $ref: './paths/sellers.yaml'
+components:
+  securitySchemes:
+    apiKey:
+      $ref: './components/security-schemes/ApiKey.yaml'

@@ -1,0 +1,8 @@
+name: day
+in: query
+description: Day filter
+required: true
+schema:
+  type: string
+  format: date
+  example: '2023-02-01'

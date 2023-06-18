@@ -1,0 +1,6 @@
+name: fromTime
+in: query
+description: Start date time.
+required: true
+schema:
+  $ref: '../schemas/DateTime.yaml'

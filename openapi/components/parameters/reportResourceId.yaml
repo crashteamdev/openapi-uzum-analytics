@@ -1,0 +1,5 @@
+name: reportId
+in: path
+required: true
+schema:
+  $ref: '../schemas/ReportId.yaml'

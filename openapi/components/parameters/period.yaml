@@ -1,0 +1,7 @@
+name: period
+in: query
+required: true
+schema:
+  type: integer
+  format: int32
+  example: 30

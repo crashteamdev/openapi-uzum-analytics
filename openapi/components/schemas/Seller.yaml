@@ -1,0 +1,10 @@
+type: object
+description: Данные магазина продавца
+properties:
+  title:
+    type: string
+  link:
+    type: string
+  accountId:
+    type: integer
+    format: int64
