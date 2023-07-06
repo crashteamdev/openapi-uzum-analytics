@@ -1,0 +1,38 @@
+get:
+  summary: Получить информацию по продажам товаров
+  operationId: getProductSales
+  tags:
+    - product
+  parameters:
+    - $ref: '../components/parameters/productIdsQuery.yaml'
+    - $ref: '../components/parameters/fromTime.yaml'
+    - $ref: '../components/parameters/toTime.yaml'
+  responses:
+    '200':
+      description: Информация по продажам товаров
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                productId:
+                  $ref: '../components/schemas/ProductId.yaml'
+                salesAmount:
+                  type: number
+                  format: double
+                orderAmount:
+                  type: integer
+                  format: int64
+                dailyOrder:
+                  type: number
+                  format: double
+                seller:
+                  $ref: '../components/schemas/Seller.yaml'
+    '400':
+      $ref: '../components/responses/BadRequest.yaml'
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml

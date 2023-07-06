@@ -22,6 +22,8 @@ security:
 paths:
   '/seller/link':
     $ref: './paths/sellers.yaml'
+  '/product/{productId}/sku/{skuId}/sales':
+    $ref: './paths/product@{productId}sku@{skuId}sales.yaml'
 components:
   securitySchemes:
     apiKey:

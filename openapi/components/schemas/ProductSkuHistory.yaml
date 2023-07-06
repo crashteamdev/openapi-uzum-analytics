@@ -1,0 +1,55 @@
+type: object
+description: История изменений товара
+properties:
+  productId:
+    $ref: './ProductId.yaml'
+  skuId:
+    $ref: './ProductSkuId.yaml'
+  name:
+    description: Название товара
+    type: string
+  orderAmount:
+    description: Кол-во заказов товара
+    type: integer
+    format: int64
+  reviewsAmount:
+    description: Кол-во отзывов
+    type: integer
+    format: int64
+  totalAvailableAmount:
+    description: Общее кол-во остатков товара по productId
+    type: integer
+    format: int64
+  fullPrice:
+    description: Полная цена без учета скидки
+    type: number
+    format: double
+    example: 10.00
+  purchasePrice:
+    description: Цена с учетом скидки
+    type: number
+    format: double
+    example: 10.00
+  availableAmount:
+    description: Кол-во остатков товара по skuId
+    type: integer
+    format: int64
+  salesAmount:
+    description: Выручка
+    type: number
+    format: double
+    example: 100.00
+  photoKey:
+    $ref: './KePhotoKey.yaml'
+  date:
+    description: День, в рамках которого зафиксированы изменения товара
+    type: string
+    format: date
+    example: "2023-03-16"
+
+
+
+
+
+
+
