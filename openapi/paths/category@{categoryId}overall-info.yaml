@@ -1,0 +1,51 @@
+get:
+  summary: Общая информация по категории
+  operationId: categoryOverallInfo
+  tags:
+    - category
+  parameters:
+    - $ref: '../components/parameters/requestId.yaml'
+    - $ref: '../components/parameters/categoryResourceId.yaml'
+#    - $ref: '../components/parameters/fromTime.yaml'
+#    - $ref: '../components/parameters/toTime.yaml'
+  responses:
+    '200':
+      description: Получены общие аналитические данные по категории
+      content:
+        application/json:
+          schema:
+            properties:
+              averagePrice:
+                type: number
+                format: double
+                example: 10.00
+                description: Средняя цена в категории
+              orderCount:
+                type: integer
+                format: int64
+                description: Кол-во заказов
+              sellerCount:
+                type: integer
+                format: int64
+                description: Кол-во продавцов
+              salesPerSeller:
+                type: number
+                format: double
+                example: 10.00
+                description: Кол-во продаж на одного продавца
+              productZeroSalesCount:
+                type: integer
+                format: int64
+                description: Кол-во товаров с нулевыми продажами
+              sellersZeroSalesCount:
+                type: integer
+                format: int64
+                description: Кол-во продавцов с нулевыми продажами
+    '400':
+      $ref: '../components/responses/BadRequest.yaml'
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '404':
+      description: Данные по категории не найдены

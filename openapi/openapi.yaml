@@ -24,8 +24,8 @@ paths:
     $ref: './paths/sellers.yaml'
   '/product/{productId}/sku/{skuId}/sales':
     $ref: './paths/product@{productId}sku@{skuId}sales.yaml'
-  '/category/average-price':
-    $ref: './paths/category-average-price.yaml'
+  '/category/{categoryId}/overall-info':
+    $ref: './paths/category@{categoryId}overall-info.yaml'
 components:
   securitySchemes:
     apiKey:

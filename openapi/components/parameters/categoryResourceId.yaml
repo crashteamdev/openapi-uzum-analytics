@@ -1,4 +1,4 @@
-name: id
+name: categoryId
 in: path
 required: true
 schema:
