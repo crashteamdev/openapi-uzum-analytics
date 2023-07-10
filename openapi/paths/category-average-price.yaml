@@ -1,0 +1,32 @@
+get:
+  summary: Средний чек в категории
+  operationId: categoryAveragePrice
+  tags:
+    - category
+  parameters:
+    - $ref: '../components/parameters/requestId.yaml'
+    - $ref: '../components/parameters/categoryNamePath.yaml'
+    - $ref: '../components/parameters/dayQuery.yaml'
+  responses:
+    '200':
+      description: Получены данные средней цены в категории
+      content:
+        application/json:
+          schema:
+            properties:
+              averagePrice:
+                type: integer
+                format: int64
+                description: Средняя цена в категории
+              productCount:
+                type: integer
+                format: int64
+                description: Кол-во товаров с продажами
+    '400':
+      $ref: '../components/responses/BadRequest.yaml'
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '404':
+      description: Данные по категории не найдены
