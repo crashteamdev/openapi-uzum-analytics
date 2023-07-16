@@ -33,6 +33,10 @@ get:
                 format: double
                 example: 10.00
                 description: Кол-во продаж на одного продавца
+              productCount:
+                type: integer
+                format: int64
+                description: Кол-во товаров (карточек)
               productZeroSalesCount:
                 type: integer
                 format: int64
