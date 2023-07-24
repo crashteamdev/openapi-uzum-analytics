@@ -21,6 +21,10 @@ get:
                 format: double
                 example: 10.00
                 description: Средняя цена в категории
+              revenue:
+                type: number
+                format: double
+                description: Общая выручка в категории
               orderCount:
                 type: integer
                 format: int64
