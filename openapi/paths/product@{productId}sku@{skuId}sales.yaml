@@ -5,6 +5,7 @@ get:
     - product
   parameters:
     - $ref: '../components/parameters/requestId.yaml'
+    - $ref: '../components/parameters/apiKey.yaml'
     - $ref: '../components/parameters/productResourceId.yaml'
     - $ref: '../components/parameters/productSkuResourceId.yaml'
     - $ref: '../components/parameters/fromTime.yaml'

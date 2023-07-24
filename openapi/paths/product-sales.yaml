@@ -4,6 +4,8 @@ get:
   tags:
     - product
   parameters:
+    - $ref: '../components/parameters/requestId.yaml'
+    - $ref: '../components/parameters/apiKey.yaml'
     - $ref: '../components/parameters/productIdsQuery.yaml'
     - $ref: '../components/parameters/fromTime.yaml'
     - $ref: '../components/parameters/toTime.yaml'

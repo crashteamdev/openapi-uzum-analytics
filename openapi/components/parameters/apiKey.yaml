@@ -1,0 +1,6 @@
+name: X-API-KEY
+in: header
+description: Уникальный токен пользователя расширения
+required: true
+schema:
+  type: string
