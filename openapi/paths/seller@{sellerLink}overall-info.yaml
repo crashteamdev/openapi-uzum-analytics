@@ -1,0 +1,51 @@
+get:
+  summary: Общая информация по магазину
+  operationId: sellerOverallInfo
+  tags:
+    - seller
+  parameters:
+    - $ref: '../components/parameters/requestId.yaml'
+    - $ref: '../components/parameters/apiKey.yaml'
+    - $ref: '../components/parameters/sellerLinkResourceId.yaml'
+    - $ref: '../components/parameters/fromTime.yaml'
+    - $ref: '../components/parameters/toTime.yaml'
+  responses:
+    '200':
+      description: Получены общие аналитические данные по магазину
+      content:
+        application/json:
+          schema:
+            properties:
+              averagePrice:
+                type: number
+                format: double
+                example: 10.00
+                description: Средняя цена по магазину
+              revenue:
+                type: number
+                format: double
+                description: Общая выручка по магазину
+              orderCount:
+                type: integer
+                format: int64
+                description: Кол-во заказов
+              productCount:
+                type: integer
+                format: int64
+                description: Кол-во товаров (карточек)
+              productCountWithSales:
+                type: integer
+                format: int64
+                description: Кол-во товаров (карточек) с продажами
+              salesDynamic:
+                type: array
+                items:
+                  $ref: '../components/schemas/DynamicSales.yaml'
+    '400':
+      $ref: '../components/responses/BadRequest.yaml'
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '404':
+      description: Данные по магазину не найдены

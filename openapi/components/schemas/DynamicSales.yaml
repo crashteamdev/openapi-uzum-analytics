@@ -1,0 +1,19 @@
+type: object
+description: История изменений заказов
+properties:
+  date:
+    description: День, в рамках которого зафиксированы изменения заказов
+    type: string
+    format: date
+    example: "2023-03-16"
+  orderAmount:
+    description: Кол-во заказов
+    type: integer
+    format: int64
+
+
+
+
+
+
+

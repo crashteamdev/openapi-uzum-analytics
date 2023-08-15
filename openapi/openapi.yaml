@@ -28,6 +28,8 @@ paths:
     $ref: './paths/product-sales.yaml'
   '/category/{categoryId}/overall-info':
     $ref: './paths/category@{categoryId}overall-info.yaml'
+  '/seller/{sellerLink}/overall-info':
+    $ref: './paths/seller@{sellerLink}overall-info.yaml'
 components:
   securitySchemes:
     apiKey:
