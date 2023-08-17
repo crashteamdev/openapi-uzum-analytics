@@ -37,6 +37,10 @@ get:
                 type: integer
                 format: int64
                 description: Кол-во товаров (карточек) с продажами
+              productCountWithoutSales:
+                type: integer
+                format: int64
+                description: Кол-во товаров (карточек) без продаж
               salesDynamic:
                 type: array
                 items:
