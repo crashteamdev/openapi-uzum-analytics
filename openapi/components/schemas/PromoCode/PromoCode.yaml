@@ -1,0 +1,29 @@
+description: Промокод для применения при покупке
+type: object
+required:
+  - code
+  - description
+  - validUntil
+  - useLimit
+  - context
+properties:
+  code:
+    type: string
+    readOnly: true
+  prefix:
+    type: string
+    description: Префикс для промокода
+    example: MDB-
+  description:
+    type: string
+  validUntil:
+    type: string
+    description: Дата окончания действия промокода
+    format: date-time
+  useLimit:
+    type: integer
+    description: Максимальное кол-во использований промокода
+  context:
+    $ref: ./PromoCodeContext.yaml
+
+

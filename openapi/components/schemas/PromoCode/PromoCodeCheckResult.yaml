@@ -1,0 +1,14 @@
+type: object
+description: Результат проверки промокода
+properties:
+  code:
+    description: Код результата проверки
+    type: string
+    enum:
+      - validPromoCode
+      - invalidPromoCodeDate
+      - invalidPromoCodeUseLimit
+      - notFoundPromoCode
+  message:
+    description: Описание результата проверки
+    type: string

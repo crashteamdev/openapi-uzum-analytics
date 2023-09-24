@@ -1,6 +1,8 @@
 get:
   summary: Общая информация по категории
   operationId: categoryOverallInfo
+  security:
+    - apiKey: []
   tags:
     - category
   parameters:

@@ -1,0 +1,12 @@
+type: object
+allOf:
+  - $ref: ./PromoCodeContext.yaml
+  - type: object
+    required:
+      - discount
+    properties:
+      discount:
+        type: integer
+        description: Скидка при покупке
+        minimum: 1
+        maximum: 99

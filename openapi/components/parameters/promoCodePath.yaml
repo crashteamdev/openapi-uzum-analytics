@@ -1,0 +1,5 @@
+name: promoCode
+in: path
+required: true
+schema:
+  type: string

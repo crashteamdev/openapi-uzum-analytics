@@ -1,0 +1,12 @@
+type: object
+discriminator:
+  propertyName: type
+  mapping:
+    discount: ./DiscountPromoCode.yaml
+    additional-time: ./AdditionalTimePromoCode.yaml
+properties:
+  type:
+    type: string
+    enum:
+      - discount
+      - additional-time

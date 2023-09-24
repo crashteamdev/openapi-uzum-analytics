@@ -1,6 +1,8 @@
 get:
   summary: Получить историю товара
   operationId: productSkuHistory
+  security:
+    - apiKey: []
   tags:
     - product
   parameters:

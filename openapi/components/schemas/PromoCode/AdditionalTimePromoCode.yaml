@@ -1,0 +1,11 @@
+type: object
+allOf:
+  - $ref: ./PromoCodeContext.yaml
+  - type: object
+    required:
+      - additionalDays
+    properties:
+      additionalDays:
+        type: integer
+        description: Дополнительные дни добавляемые при покупке
+        minimum: 1

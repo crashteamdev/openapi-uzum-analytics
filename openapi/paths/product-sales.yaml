@@ -1,6 +1,8 @@
 get:
   summary: Получить информацию по продажам товаров
   operationId: getProductSales
+  security:
+    - apiKey: []
   tags:
     - product
   parameters:

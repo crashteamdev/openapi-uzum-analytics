@@ -1,6 +1,8 @@
 get:
   summary: Общая информация по магазину
   operationId: sellerOverallInfo
+  security:
+    - apiKey: []
   tags:
     - seller
   parameters:
