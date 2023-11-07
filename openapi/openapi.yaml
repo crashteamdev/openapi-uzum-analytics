@@ -25,6 +25,8 @@ paths:
     $ref: './paths/sellers.yaml'
   '/product/{productId}/sku/{skuId}/sales':
     $ref: './paths/product@{productId}sku@{skuId}sales.yaml'
+  '/product/{productId}/sku/{skuId}/additional-info':
+    $ref: './paths/product@{productId}sku@{skuId}additional-info.yaml'
   '/product/sales':
     $ref: './paths/product-sales.yaml'
   '/category/{categoryId}/overall-info':

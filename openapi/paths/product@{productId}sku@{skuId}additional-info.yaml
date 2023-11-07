@@ -1,0 +1,33 @@
+get:
+  summary: Общая информация по продукту
+  operationId: productOverallInfo
+  security:
+    - apiKey: []
+  tags:
+    - product
+  parameters:
+    - $ref: '../components/parameters/requestId.yaml'
+    - $ref: '../components/parameters/apiKey.yaml'
+    - $ref: '../components/parameters/productResourceId.yaml'
+    - $ref: '../components/parameters/productSkuResourceId.yaml'
+    - $ref: '../components/parameters/fromTime.yaml'
+    - $ref: '../components/parameters/toTime.yaml'
+  responses:
+    '200':
+      description: Получены общие аналитические данные по товару
+      content:
+        application/json:
+          schema:
+            properties:
+              firstDiscovered:
+                type: string
+                format: date-time
+                description: Дата первого обнаружения товара. В получении значения не участвуют параметры fromTime и toTime
+    '400':
+      $ref: '../components/responses/BadRequest.yaml'
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '404':
+      description: Данные по продукту не найдены
