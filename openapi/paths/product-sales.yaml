@@ -24,8 +24,8 @@ get:
                 productId:
                   $ref: '../components/schemas/ProductId.yaml'
                 salesAmount:
-                  type: number
-                  format: double
+                  type: integer
+                  format: int64
                 orderAmount:
                   type: integer
                   format: int64
