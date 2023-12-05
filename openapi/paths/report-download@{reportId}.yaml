@@ -1,0 +1,29 @@
+get:
+  summary: Скачать файл по идентификатору отчета
+  operationId: getReportByReportId
+  security:
+    - apiKey: []
+  tags:
+    - report
+  parameters:
+    - $ref: '../components/parameters/reportResourceId.yaml'
+  responses:
+    '200':
+      description: Файл отчета
+      headers:
+        Content-Disposition:
+          schema:
+            type: string
+            description: Used only with `application/xlsx` responses
+            example: attachment; filename="name.xlsx"
+      content:
+        application/xlsx:
+          schema:
+            type: string
+            format: binary
+    '400':
+      $ref: '../components/responses/BadRequest.yaml'
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml

@@ -1,0 +1,21 @@
+type: object
+description: История изменений товара
+properties:
+  reportId:
+    $ref: './ReportId.yaml'
+  jobId:
+    $ref: './JobId.yaml'
+  status:
+    type: string
+  interval:
+    type: integer
+    format: int32
+  reportType:
+    type: string
+  createdAt:
+    type: string
+    format: date-time
+  sellerLink:
+    type: string
+  categoryId:
+    $ref: './CategoryId.yaml'

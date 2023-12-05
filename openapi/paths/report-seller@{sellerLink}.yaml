@@ -1,0 +1,28 @@
+get:
+  summary: Сгенерировать отчет по магазину
+  operationId: getReportBySeller
+  security:
+    - apiKey: []
+  tags:
+    - report
+  parameters:
+    - $ref: '../components/parameters/sellerLinkResourceId.yaml'
+    - $ref: '../components/parameters/period.yaml'
+    - $ref: '../components/parameters/idempotenceKey.yaml'
+  responses:
+    '200':
+      description: Идентификатор созданной job
+      content:
+        application/json:
+          schema:
+            properties:
+              jobId:
+                $ref: '../components/schemas/JobId.yaml'
+              reportId:
+                $ref: '../components/schemas/ReportId.yaml'
+    '400':
+      $ref: '../components/responses/BadRequest.yaml'
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml

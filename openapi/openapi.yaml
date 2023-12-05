@@ -37,6 +37,16 @@ paths:
     $ref: './paths/promocode.yaml'
   '/promo-code/{promoCode}/check':
     $ref: './paths/promocode-check@{promoCode}.yaml'
+  '/report/seller/{sellerLink}':
+    $ref: './paths/report-seller@{sellerLink}.yaml'
+  '/report/category/{categoryId}':
+    $ref: './paths/report-category@{categoryId}.yaml'
+  '/report/{reportId}':
+    $ref: './paths/report-download@{reportId}.yaml'
+  '/report/state/{jobId}':
+    $ref: './paths/report-state@{jobId}.yaml'
+  '/reports':
+    $ref: './paths/reports.yaml'
 components:
   securitySchemes:
     apiKey:

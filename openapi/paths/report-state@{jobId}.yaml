@@ -1,0 +1,51 @@
+get:
+  summary: Статус генерации отчета
+  operationId: getReportStateByJobId
+  security:
+    - apiKey: []
+  tags:
+    - report
+  parameters:
+    - $ref: '../components/parameters/jobResourceId.yaml'
+  responses:
+    '200':
+      description: Статус отчета
+      content:
+        application/json:
+          schema:
+            required:
+              - reportId
+              - jobId
+              - status
+              - interval
+              - reportType
+              - createdAt
+            properties:
+              reportId:
+                $ref: '../components/schemas/ReportId.yaml'
+              jobId:
+                $ref: '../components/schemas/JobId.yaml'
+              status:
+                type: string
+                example: 'COMPLETED'
+              interval:
+                type: integer
+                example: 30
+              reportType:
+                type: string
+                example: 'SELLER'
+              createdAt:
+                type: string
+                format: date-time
+              sellerLink:
+                $ref: '../components/schemas/SellerLink.yaml'
+                example: 'mhouse'
+              categoryId:
+                $ref: '../components/schemas/CategoryId.yaml'
+                example: 13253
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
