@@ -1,7 +1,7 @@
 post:
   summary: Выдать демо подписку
   description: |
-    Создание промокода (только для администраторов)
+    Выдать демо тариф пользователю (только для администраторов)
   operationId: giveawayDemoSubscription
   security:
     - bearer: []
