@@ -1,0 +1,955 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: CrashTeam Uzum Analytics API
+  description: |
+    CrashTeam Dev Uzum Analytics API
+  termsOfService: http://marketdb.ru/terms-of-use/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://{subdomain}.marketdb.org/{version}
+    variables:
+      subdomain:
+        default: api
+      version:
+        enum:
+          - v2
+        default: v2
+security:
+  - apiKey: []
+  - bearer: []
+paths:
+  /seller/link:
+    get:
+      summary: Получить список магазинов продавца
+      operationId: getSellerShops
+      security:
+        - apiKey: []
+      tags:
+        - seller
+      parameters:
+        - $ref: '#/components/parameters/sellerLinkQuery'
+      responses:
+        '200':
+          description: Список магазинов продавца
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Seller'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /product/{productId}/sku/{skuId}/sales:
+    get:
+      summary: Получить историю товара
+      operationId: productSkuHistory
+      security:
+        - apiKey: []
+      tags:
+        - product
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/productResourceId'
+        - $ref: '#/components/parameters/productSkuResourceId'
+        - $ref: '#/components/parameters/fromTime'
+        - $ref: '#/components/parameters/toTime'
+        - $ref: '#/components/parameters/collectionLimit'
+        - $ref: '#/components/parameters/collectionOffset'
+      responses:
+        '200':
+          description: Получена история изменения товара
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductSkuHistory'
+          headers:
+            Pagination-Total:
+              $ref: '#/components/headers/Pagination-Total'
+            Pagination-Limit:
+              $ref: '#/components/headers/Pagination-Limit'
+            Pagination-Offset:
+              $ref: '#/components/headers/Pagination-Offset'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: История товара не найдена
+  /product/{productId}/sku/{skuId}/additional-info:
+    get:
+      summary: Общая информация по продукту
+      operationId: productOverallInfo
+      security:
+        - apiKey: []
+      tags:
+        - product
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/productResourceId'
+        - $ref: '#/components/parameters/productSkuResourceId'
+        - $ref: '#/components/parameters/fromTime'
+        - $ref: '#/components/parameters/toTime'
+      responses:
+        '200':
+          description: Получены общие аналитические данные по товару
+          content:
+            application/json:
+              schema:
+                properties:
+                  firstDiscovered:
+                    type: string
+                    format: date-time
+                    description: >-
+                      Дата первого обнаружения товара. В получении значения не
+                      участвуют параметры fromTime и toTime
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Данные по продукту не найдены
+  /product/sales:
+    get:
+      summary: Получить информацию по продажам товаров
+      operationId: getProductSales
+      security:
+        - apiKey: []
+      tags:
+        - product
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/productIdsQuery'
+        - $ref: '#/components/parameters/fromTime'
+        - $ref: '#/components/parameters/toTime'
+      responses:
+        '200':
+          description: Информация по продажам товаров
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    productId:
+                      $ref: '#/components/schemas/ProductId'
+                    salesAmount:
+                      type: integer
+                      format: int64
+                    orderAmount:
+                      type: integer
+                      format: int64
+                    dailyOrder:
+                      type: number
+                      format: double
+                    seller:
+                      $ref: '#/components/schemas/Seller'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /category/{categoryId}/overall-info:
+    get:
+      summary: Общая информация по категории
+      operationId: categoryOverallInfo
+      security:
+        - apiKey: []
+      tags:
+        - category
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/categoryResourceId'
+        - $ref: '#/components/parameters/fromTime'
+        - $ref: '#/components/parameters/toTime'
+      responses:
+        '200':
+          description: Получены общие аналитические данные по категории
+          content:
+            application/json:
+              schema:
+                properties:
+                  averagePrice:
+                    type: number
+                    format: double
+                    example: 10
+                    description: Средняя цена в категории
+                  revenue:
+                    type: number
+                    format: double
+                    description: Общая выручка в категории
+                  orderCount:
+                    type: integer
+                    format: int64
+                    description: Кол-во заказов
+                  sellerCount:
+                    type: integer
+                    format: int64
+                    description: Кол-во продавцов
+                  salesPerSeller:
+                    type: number
+                    format: double
+                    example: 10
+                    description: Кол-во продаж на одного продавца
+                  productCount:
+                    type: integer
+                    format: int64
+                    description: Кол-во товаров (карточек)
+                  productZeroSalesCount:
+                    type: integer
+                    format: int64
+                    description: Кол-во товаров с нулевыми продажами
+                  sellersZeroSalesCount:
+                    type: integer
+                    format: int64
+                    description: Кол-во продавцов с нулевыми продажами
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Данные по категории не найдены
+  /seller/{sellerLink}/overall-info:
+    get:
+      summary: Общая информация по магазину
+      operationId: sellerOverallInfo
+      security:
+        - apiKey: []
+      tags:
+        - seller
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/sellerLinkResourceId'
+        - $ref: '#/components/parameters/fromTime'
+        - $ref: '#/components/parameters/toTime'
+      responses:
+        '200':
+          description: Получены общие аналитические данные по магазину
+          content:
+            application/json:
+              schema:
+                properties:
+                  averagePrice:
+                    type: number
+                    format: double
+                    example: 10
+                    description: Средняя цена по магазину
+                  revenue:
+                    type: number
+                    format: double
+                    description: Общая выручка по магазину
+                  orderCount:
+                    type: integer
+                    format: int64
+                    description: Кол-во заказов
+                  productCount:
+                    type: integer
+                    format: int64
+                    description: Кол-во товаров (карточек)
+                  productCountWithSales:
+                    type: integer
+                    format: int64
+                    description: Кол-во товаров (карточек) с продажами
+                  productCountWithoutSales:
+                    type: integer
+                    format: int64
+                    description: Кол-во товаров (карточек) без продаж
+                  salesDynamic:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DynamicSales'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Данные по магазину не найдены
+  /promo-code:
+    post:
+      summary: Создать промокод
+      description: |
+        Создание промокода (только для администраторов)
+      operationId: createPromoCode
+      security:
+        - bearer: []
+      tags:
+        - promo
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromoCode'
+      responses:
+        '201':
+          description: Создан промокод
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromoCode'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /promo-code/{promoCode}/check:
+    get:
+      summary: Проверить промокод
+      operationId: checkPromoCode
+      security:
+        - bearer: []
+      tags:
+        - promo
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+        - $ref: '#/components/parameters/promoCodePath'
+      responses:
+        '200':
+          description: Результат проверки промокода
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromoCodeCheckResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /report/seller/{sellerLink}:
+    get:
+      summary: Сгенерировать отчет по магазину
+      operationId: getReportBySeller
+      security:
+        - apiKey: []
+      tags:
+        - report
+      parameters:
+        - $ref: '#/components/parameters/sellerLinkResourceId'
+        - $ref: '#/components/parameters/period'
+        - $ref: '#/components/parameters/idempotenceKey'
+      responses:
+        '200':
+          description: Идентификатор созданной job
+          content:
+            application/json:
+              schema:
+                properties:
+                  jobId:
+                    $ref: '#/components/schemas/JobId'
+                  reportId:
+                    $ref: '#/components/schemas/ReportId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /report/category/{categoryId}:
+    get:
+      summary: Сгенерировать отчет по категории
+      operationId: getReportByCategory
+      security:
+        - apiKey: []
+      tags:
+        - report
+      parameters:
+        - $ref: '#/components/parameters/categoryResourceId'
+        - $ref: '#/components/parameters/period'
+        - $ref: '#/components/parameters/idempotenceKey'
+      responses:
+        '200':
+          description: Идентификатор созданной job
+          content:
+            application/json:
+              schema:
+                properties:
+                  jobId:
+                    $ref: '#/components/schemas/JobId'
+                  reportId:
+                    $ref: '#/components/schemas/ReportId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /report/{reportId}:
+    get:
+      summary: Скачать файл по идентификатору отчета
+      operationId: getReportByReportId
+      security:
+        - apiKey: []
+      tags:
+        - report
+      parameters:
+        - $ref: '#/components/parameters/reportResourceId'
+      responses:
+        '200':
+          description: Файл отчета
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+                description: Used only with `application/xlsx` responses
+                example: attachment; filename="name.xlsx"
+          content:
+            application/xlsx:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /report/state/{jobId}:
+    get:
+      summary: Статус генерации отчета
+      operationId: getReportStateByJobId
+      security:
+        - apiKey: []
+      tags:
+        - report
+      parameters:
+        - $ref: '#/components/parameters/jobResourceId'
+      responses:
+        '200':
+          description: Статус отчета
+          content:
+            application/json:
+              schema:
+                required:
+                  - reportId
+                  - jobId
+                  - status
+                  - interval
+                  - reportType
+                  - createdAt
+                properties:
+                  reportId:
+                    $ref: '#/components/schemas/ReportId'
+                  jobId:
+                    $ref: '#/components/schemas/JobId'
+                  status:
+                    type: string
+                    example: COMPLETED
+                  interval:
+                    type: integer
+                    example: 30
+                  reportType:
+                    type: string
+                    example: SELLER
+                  createdAt:
+                    type: string
+                    format: date-time
+                  sellerLink:
+                    $ref: '#/components/schemas/SellerLink'
+                    example: mhouse
+                  categoryId:
+                    $ref: '#/components/schemas/CategoryId'
+                    example: 13253
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /reports:
+    get:
+      summary: Получить список всех отчетов
+      operationId: getReports
+      security:
+        - apiKey: []
+      tags:
+        - report
+      parameters:
+        - $ref: '#/components/parameters/fromTime'
+      responses:
+        '200':
+          description: Список отчетов пользователя
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /subscription/giveaway:
+    post:
+      summary: Выдать демо подписку
+      description: |
+        Выдать демо тариф пользователю (только для администраторов)
+      operationId: giveawayDemoSubscription
+      security:
+        - bearer: []
+      tags:
+        - subscription
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: GiveawayUserDemoRequest
+              required:
+                - userId
+              properties:
+                userId:
+                  type: string
+                  description: Id пользователя в системе.
+      responses:
+        '200':
+          description: Выдан демо тариф
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+components:
+  securitySchemes:
+    apiKey:
+      description: >
+        Для аутентификации вызовов из расширения мы используем API ключ.
+        Cоответствующий ключ передается в заголовке.
+
+        ```shell
+          X-API-KEY: 4AcpWqDM.s1c7f96bfp8abc773d07vcl50404ff8d58c943a5b4119f396513b1f8199ab955
+        ```
+      type: apiKey
+      in: header
+      name: X-API-KEY
+    bearer:
+      description: >
+        Для аутентификации вызовов мы используем [JWT](https://jwt.io).
+        Cоответствующий ключ передается в заголовке.
+
+        ```shell
+          Authorization: Bearer {TOKENIZATION|PRIVATE_JWT}
+        ```
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    sellerLinkQuery:
+      name: sellerLink
+      in: query
+      required: true
+      schema:
+        type: string
+    requestId:
+      name: X-Request-ID
+      in: header
+      description: Уникальный идентификатор запроса к системе
+      required: true
+      schema:
+        type: string
+        format: uuid
+    apiKey:
+      name: X-API-KEY
+      in: header
+      description: Уникальный токен пользователя расширения
+      required: true
+      schema:
+        type: string
+    productResourceId:
+      name: productId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/ProductId'
+    productSkuResourceId:
+      name: skuId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/ProductSkuId'
+    fromTime:
+      name: fromTime
+      in: query
+      description: Start date time.
+      required: true
+      schema:
+        $ref: '#/components/schemas/DateTime'
+    toTime:
+      name: toTime
+      in: query
+      description: End date time.
+      required: true
+      schema:
+        $ref: '#/components/schemas/DateTime'
+    collectionLimit:
+      name: limit
+      in: query
+      description: The collection items limit.
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 1000
+    collectionOffset:
+      name: offset
+      in: query
+      description: The collection items offset.
+      schema:
+        type: integer
+        minimum: 0
+    productIdsQuery:
+      name: productIds
+      in: query
+      description: List of product id
+      required: true
+      schema:
+        type: array
+        items:
+          type: integer
+          format: int64
+    categoryResourceId:
+      name: categoryId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/CategoryId'
+    sellerLinkResourceId:
+      name: sellerLink
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/SellerLink'
+    promoCodePath:
+      name: promoCode
+      in: path
+      required: true
+      schema:
+        type: string
+    period:
+      name: period
+      in: query
+      required: true
+      schema:
+        type: integer
+        format: int32
+        example: 30
+    idempotenceKey:
+      name: Idempotence-Key
+      in: header
+      required: true
+      schema:
+        type: string
+    reportResourceId:
+      name: reportId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/ReportId'
+    jobResourceId:
+      name: jobId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/JobId'
+  schemas:
+    Seller:
+      type: object
+      description: Данные магазина продавца
+      properties:
+        title:
+          type: string
+        link:
+          type: string
+        accountId:
+          type: integer
+          format: int64
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          minimum: 100
+          maximum: 600
+          description: The HTTP status code.
+        error:
+          type: string
+        type:
+          type: string
+          description: >-
+            A URI reference [[RFC3986](https://tools.ietf.org/html/rfc3986)]
+            that identifies the problem type. It should provide human-readable
+            documentation for the problem type. When this member is not present,
+            its value is assumed to be "about:blank".
+        title:
+          type: string
+          description: >-
+            A short, human-readable summary of the problem type. It SHOULD NOT
+            change from occurrence to occurrence of the problem, except for
+            purposes of localization.
+    ProductId:
+      description: Идентификатор продукта
+      type: integer
+      format: int64
+      readOnly: true
+    ProductSkuId:
+      description: Идентификатор sku продукта
+      type: integer
+      format: int64
+      readOnly: true
+    DateTime:
+      type: string
+      format: date-time
+    KePhotoKey:
+      type: string
+      description: Уникальный идентификатор картинки
+    ProductSkuHistory:
+      type: object
+      description: История изменений товара
+      properties:
+        productId:
+          $ref: '#/components/schemas/ProductId'
+        skuId:
+          $ref: '#/components/schemas/ProductSkuId'
+        name:
+          description: Название товара
+          type: string
+        orderAmount:
+          description: Кол-во заказов товара
+          type: integer
+          format: int64
+        reviewsAmount:
+          description: Кол-во отзывов
+          type: integer
+          format: int64
+        totalAvailableAmount:
+          description: Общее кол-во остатков товара по productId
+          type: integer
+          format: int64
+        fullPrice:
+          description: Полная цена без учета скидки
+          type: number
+          format: double
+          example: 10
+        purchasePrice:
+          description: Цена с учетом скидки
+          type: number
+          format: double
+          example: 10
+        availableAmount:
+          description: Кол-во остатков товара по skuId
+          type: integer
+          format: int64
+        salesAmount:
+          description: Выручка
+          type: number
+          format: double
+          example: 100
+        photoKey:
+          $ref: '#/components/schemas/KePhotoKey'
+        date:
+          description: День, в рамках которого зафиксированы изменения товара
+          type: string
+          format: date
+          example: '2023-03-16'
+    CategoryId:
+      description: Идентификатор категории
+      type: integer
+      format: int64
+      readOnly: true
+    SellerLink:
+      type: string
+      description: Уникальная ссылка на магазин продавца
+      example: mimaximum
+    DynamicSales:
+      type: object
+      description: История изменений заказов
+      properties:
+        date:
+          description: День, в рамках которого зафиксированы изменения заказов
+          type: string
+          format: date
+          example: '2023-03-16'
+        orderAmount:
+          description: Кол-во заказов
+          type: integer
+          format: int64
+    PromoCodeContext:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          discount: '#/components/schemas/DiscountPromoCode'
+          additional-time: '#/components/schemas/AdditionalTimePromoCode'
+      properties:
+        type:
+          type: string
+          enum:
+            - discount
+            - additional-time
+    DiscountPromoCode:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PromoCodeContext'
+        - type: object
+          required:
+            - discount
+          properties:
+            discount:
+              type: integer
+              description: Скидка при покупке
+              minimum: 1
+              maximum: 99
+    AdditionalTimePromoCode:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PromoCodeContext'
+        - type: object
+          required:
+            - additionalDays
+          properties:
+            additionalDays:
+              type: integer
+              description: Дополнительные дни добавляемые при покупке
+              minimum: 1
+    PromoCode:
+      description: Промокод для применения при покупке
+      type: object
+      required:
+        - code
+        - description
+        - validUntil
+        - useLimit
+        - context
+      properties:
+        code:
+          type: string
+          readOnly: true
+        prefix:
+          type: string
+          description: Префикс для промокода
+          example: MDB-
+        description:
+          type: string
+        validUntil:
+          type: string
+          description: Дата окончания действия промокода
+          format: date-time
+        useLimit:
+          type: integer
+          description: Максимальное кол-во использований промокода
+        context:
+          $ref: '#/components/schemas/PromoCodeContext'
+    PromoCodeCheckResult:
+      type: object
+      description: Результат проверки промокода
+      properties:
+        code:
+          description: Код результата проверки
+          type: string
+          enum:
+            - validPromoCode
+            - invalidPromoCodeDate
+            - invalidPromoCodeUseLimit
+            - notFoundPromoCode
+        message:
+          description: Описание результата проверки
+          type: string
+    JobId:
+      description: Идентификатор асинхронной job
+      type: string
+      format: uuid
+    ReportId:
+      description: Идентификатор отчета
+      type: string
+      example: 61dc6a6a453cd26524fd42b4
+    Report:
+      type: object
+      description: История изменений товара
+      properties:
+        reportId:
+          $ref: '#/components/schemas/ReportId'
+        jobId:
+          $ref: '#/components/schemas/JobId'
+        status:
+          type: string
+        interval:
+          type: integer
+          format: int32
+        reportType:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        sellerLink:
+          type: string
+        categoryId:
+          $ref: '#/components/schemas/CategoryId'
+  responses:
+    BadRequest:
+      description: Переданы ошибочные данные
+      content:
+        application/json:
+          schema:
+            description: Ошибка в переданных данных
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                type: string
+    Unauthorized:
+      description: Несанкционированный доступ, использовались неверные учетные данные.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Access forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  headers:
+    Pagination-Total:
+      description: Total items count.
+      schema:
+        type: integer
+    Pagination-Limit:
+      description: Items per page limit.
+      schema:
+        type: integer
+    Pagination-Offset:
+      description: Pagination offset.
+      schema:
+        type: integer
