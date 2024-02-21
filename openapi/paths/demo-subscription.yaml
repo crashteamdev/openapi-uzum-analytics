@@ -1,0 +1,32 @@
+post:
+  summary: Выдать демо подписку
+  description: |
+    Создание промокода (только для администраторов)
+  operationId: giveawayDemoSubscription
+  security:
+    - bearer: []
+  tags:
+    - subscription
+  parameters:
+    - $ref: ../components/parameters/requestId.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          title: GiveawayUserDemoRequest
+          required:
+            - userId
+          properties:
+            userId:
+              type: string
+              description: Id пользователя в системе.
+  responses:
+    '200':
+      description: Выдан демо тариф
+    '400':
+      $ref: '../components/responses/BadRequest.yaml'
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml

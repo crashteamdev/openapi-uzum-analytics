@@ -47,6 +47,8 @@ paths:
     $ref: './paths/report-state@{jobId}.yaml'
   '/reports':
     $ref: './paths/reports.yaml'
+  '/subscription/giveaway':
+    $ref: './paths/demo-subscription.yaml'
 components:
   securitySchemes:
     apiKey:
